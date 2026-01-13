@@ -1,6 +1,8 @@
 package com.practice.ecommerce.service;
 
+import com.practice.ecommerce.Repositories.CategoryRepository;
 import com.practice.ecommerce.model.Category;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,45 +14,42 @@ import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService{
 
-    private List<Category> categories = new ArrayList<>();
+    //private List<Category> categories = new ArrayList<>();
     private Long nextId = 1L;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
     @Override
     public List<Category> getAllCategory() {
-        return categories;
+
+        return categoryRepository.findAll();
     }
 
     @Override
     public void createCategory(Category category) {
-        category.setCategoryId(nextId++);
-        categories.add(category);
+        //category.setCategoryId(nextId++);
+        categoryRepository.save(category);
 
     }
 
     @Override
     public String deleteCategory(Long categoryId) {
-        Category tempCategory = categories.stream()
-                .filter(c -> c.getCategoryId().equals(categoryId))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource Not Found"));
+        Category category = categoryRepository.findById(categoryId)
+                        .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource Not Found"));
 
-
-        categories.remove(tempCategory);
+        categoryRepository.delete(category);
         return "Category with categoryID: " + categoryId + " Deleted";
     }
 
     @Override
     public Category updateCategory(Category category, Long categoryId) {
-        Optional<Category> tempCategory = categories.stream()
-                .filter(c -> c.getCategoryId().equals(categoryId))
-                .findFirst();
 
-        if(tempCategory.isPresent()){
-            Category existingCategory = tempCategory.get();
-            existingCategory.setCategoryName(category.getCategoryName());
-            return existingCategory;
-        }else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource Not Found");
-        }
+        Category oldCategory = categoryRepository.findById(categoryId)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource Not Found"));
+
+        oldCategory.setCategoryName(category.getCategoryName());
+        return categoryRepository.save(oldCategory);
+
 
     }
 }
