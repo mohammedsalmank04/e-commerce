@@ -1,33 +1,36 @@
 package com.practice.ecommerce.service;
 
 import com.practice.ecommerce.Repositories.CategoryRepository;
+import com.practice.ecommerce.exceptions.APIExceptions;
+import com.practice.ecommerce.exceptions.ResourceNotFoundException;
 import com.practice.ecommerce.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
 
-    //private List<Category> categories = new ArrayList<>();
-    private Long nextId = 1L;
+
 
     @Autowired
     private CategoryRepository categoryRepository;
     @Override
     public List<Category> getAllCategory() {
+        List<Category> categories = categoryRepository.findAll();
+        if(categories.isEmpty())
+            throw new APIExceptions("There are not Category present");
 
-        return categoryRepository.findAll();
+        return categories;
     }
 
     @Override
     public void createCategory(Category category) {
-        //category.setCategoryId(nextId++);
+        Category savedCategory = categoryRepository.findByCategoryName(category.getCategoryName());
+        if(savedCategory != null)
+            throw new APIExceptions("Category with name: " + category.getCategoryName() + " already Exists");
+
         categoryRepository.save(category);
 
     }
@@ -35,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public String deleteCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                        .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource Not Found"));
+                        .orElseThrow(()-> new ResourceNotFoundException("Category","CategoryId",categoryId));
 
         categoryRepository.delete(category);
         return "Category with categoryID: " + categoryId + " Deleted";
@@ -45,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService{
     public Category updateCategory(Category category, Long categoryId) {
 
         Category oldCategory = categoryRepository.findById(categoryId)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Resource Not Found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Category","CategoryId",categoryId));
 
         oldCategory.setCategoryName(category.getCategoryName());
         return categoryRepository.save(oldCategory);
