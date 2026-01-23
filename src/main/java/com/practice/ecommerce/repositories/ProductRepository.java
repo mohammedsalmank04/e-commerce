@@ -1,4 +1,4 @@
-package com.practice.ecommerce.Repositories;
+package com.practice.ecommerce.repositories;
 
 import com.practice.ecommerce.model.Category;
 import com.practice.ecommerce.model.Product;

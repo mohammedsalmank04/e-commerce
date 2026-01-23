@@ -1,6 +1,6 @@
 package com.practice.ecommerce.service;
 
-import com.practice.ecommerce.Repositories.CategoryRepository;
+import com.practice.ecommerce.repositories.CategoryRepository;
 import com.practice.ecommerce.exceptions.APIExceptions;
 import com.practice.ecommerce.exceptions.ResourceNotFoundException;
 import com.practice.ecommerce.model.Category;

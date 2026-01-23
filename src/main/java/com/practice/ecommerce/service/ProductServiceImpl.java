@@ -1,8 +1,7 @@
 package com.practice.ecommerce.service;
 
-import com.practice.ecommerce.Repositories.CategoryRepository;
-import com.practice.ecommerce.Repositories.ProductRepository;
-import com.practice.ecommerce.config.AppConstants;
+import com.practice.ecommerce.repositories.CategoryRepository;
+import com.practice.ecommerce.repositories.ProductRepository;
 import com.practice.ecommerce.exceptions.APIExceptions;
 import com.practice.ecommerce.exceptions.ResourceNotFoundException;
 import com.practice.ecommerce.model.Category;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
