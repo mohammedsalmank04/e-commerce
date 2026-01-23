@@ -1,42 +1,31 @@
 package com.practice.ecommerce.security.jwt;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginResponse {
+    private Long id;
     private String jwtToken;
 
     private String username;
     private List<String> roles;
 
-    public LoginResponse(String username, List<String> roles, String jwtToken) {
+    public LoginResponse(Long id,String username, List<String> roles, String jwtToken) {
+        this.id = id;
         this.username = username;
         this.roles = roles;
         this.jwtToken = jwtToken;
     }
 
-    public String getJwtToken() {
-        return jwtToken;
-    }
+    s
 
-    public void setJwtToken(String jwtToken) {
-        this.jwtToken = jwtToken;
-    }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
 }
 
 

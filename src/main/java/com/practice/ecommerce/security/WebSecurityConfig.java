@@ -40,7 +40,7 @@ public class WebSecurityConfig {
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
-
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception{
         return authConfiguration.getAuthenticationManager();
     }
@@ -87,4 +87,6 @@ public class WebSecurityConfig {
                 "/v2/api-docs"
         ));
     }
+
+
 }
