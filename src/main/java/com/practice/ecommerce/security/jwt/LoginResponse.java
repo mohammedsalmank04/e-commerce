@@ -23,7 +23,7 @@ public class LoginResponse {
         this.jwtToken = jwtToken;
     }
 
-    s
+
 
 
 }
